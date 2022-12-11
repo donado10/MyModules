@@ -1,9 +1,9 @@
 import hashlib
 import os
 
-#return True if a file is empty
-def isFileEmpty(path):
-    file = open(path,'rt')
+#function that return True if a file is empty
+def isFileEmpty(filePath):
+    file = open(filePath,'rt')
     file.seek(0, os.SEEK_END)
     if file.tell() == 0:
         file.close()
@@ -13,7 +13,6 @@ def isFileEmpty(path):
 
 
 class HashFile:
-
     sourceFile = None #Location for the file to hash
     hashStore = None #Location to store the hash
     
@@ -23,12 +22,12 @@ class HashFile:
 
     #method for hashing a file
     def hashFile(self,filename):
-        with open(self.sourceFile+filename,'rb') as f:
-            toHash = f.read()
+        with open(self.sourceFile+filename,'rb') as file:
+            toHash = file.read()
             result = hashlib.md5(str(toHash).encode())
         return result
 
-    #return True if two hashs are equals
+    #method that return True if the new hash of the file and the hash in the store are equals
     def isHashsEqual(self,filename):
         if isFileEmpty(self.hashStore):
             return False 
@@ -39,17 +38,17 @@ class HashFile:
             return True
         return False
 
-    #method to get the hash in the store
+    #method to get the hash value from the hash store
     def getHashInStore(self):
         hashInStore = open(self.hashStore,'rt')        
 
-        for hashfile in hashInStore:
-            getHashStore = hashfile
+        for currentHash in hashInStore:
+            getHashStore = currentHash
         hashInStore.close()
 
         return getHashStore
 
-    #method for saving an hash in a file
+    #method for saving an hash in the hash store
     def saveHash(self,hashResult):
         hashStorage = open(self.hashStore,'w')
         hashStorage.write(hashResult.hexdigest())

@@ -1,7 +1,6 @@
 import tkinter as tk
 
 class NotificationScript:
-
     window = None
     label = None
 
@@ -9,7 +8,7 @@ class NotificationScript:
         self.windowName = windowName
 
     #method to init a GUI
-    def setScriptGUI(self):
+    def setGUI(self):
         self.window = tk.Tk(className=self.windowName)
         self.window.geometry("400x200")
         return self

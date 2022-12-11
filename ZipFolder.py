@@ -1,11 +1,9 @@
 import shutil
-from datetime import datetime
 
 
 class ZipFolder:
-
     source = None #Location for the source file to Zip
-    destination = None #Destination for the new zip file
+    destination = None #Repository for the new zip file
 
     def __init__(self, source,destination) -> None:
         self.source = source
