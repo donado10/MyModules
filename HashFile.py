@@ -20,7 +20,7 @@ class HashFile:
         self.sourceFile = sourceFile
         self.hashStore = hashStore
 
-    #method for hashing a file
+    #method for hashing a file with md5
     def hashFile(self,filename):
         with open(self.sourceFile+filename,'rb') as file:
             toHash = file.read()
