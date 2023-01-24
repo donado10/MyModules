@@ -12,13 +12,14 @@ class CryptoFile():
     def __init__(self) -> None:
         pass
 
+#Method for deleting a file
     def removeFile(file):
         if os.path.isfile(file):
             os.remove(file)
-        else:
-        
+        else:      
             print("Error: %s file not found" % file)
 
+#Methode that generate RSA key
     def generate_RSA(bits:int=2048):
         private_key = rsa.generate_private_key(
             public_exponent=65537,
@@ -27,6 +28,7 @@ class CryptoFile():
         public_key = private_key.public_key()
         return private_key, public_key
 
+#Method that export RSA key to PEM file
     def generateKeys():
         private,public = CryptoFile.generate_RSA()
 
@@ -47,6 +49,7 @@ class CryptoFile():
         with open("private.pem", "wb") as f:
                 f.write(private_key_pem)
 
+#Method that load private key from PEM string
     def loadPrivatekey(private_key_pem:str):
         private_key_pem = private_key_pem.encode('utf-8')
         private_key = serialization.load_pem_private_key(
@@ -56,6 +59,7 @@ class CryptoFile():
         )
         return private_key
 
+#Method that load private key from PEM file
     def loadPrivatekeyFromFile(pemFile):
         with open(pemFile, "rb") as key_file:
             private_key_pem = key_file.read()
@@ -66,6 +70,7 @@ class CryptoFile():
             )
         return private_key
 
+#Method that load public key from PEM string
     def loadPublickey(public_key_pem:str):
         public_key_pem = public_key_pem.encode('utf-8')
         public_key = serialization.load_pem_public_key(
@@ -74,6 +79,7 @@ class CryptoFile():
         )
         return public_key
 
+#Method that load public key from PEM file
     def loadPublickeyFromFile(pemFile):
         with open(pemFile, "rb") as key_file:
             public_key_pem = key_file.read()
@@ -83,6 +89,7 @@ class CryptoFile():
             )
         return public_key
         
+#Method for encrypting a file
     def encryptFile(file_name, public_key,rmFile = False):
         with open(file_name, "rb") as f:
             data = f.read()
@@ -119,6 +126,7 @@ class CryptoFile():
         if rmFile:
             CryptoFile.removeFile(file_name)         
 
+#Method for decrypting a file
     def decryptFile(file_name, private_key):
         with open(file_name, "rb") as f:
             aes_key = f.read(256)
