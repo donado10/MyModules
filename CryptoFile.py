@@ -19,7 +19,7 @@ class CryptoFile():
         else:      
             print("Error: %s file not found" % file)
 
-#Methode that generate RSA key
+#Method that generate RSA key
     def generate_RSA(bits:int=2048):
         private_key = rsa.generate_private_key(
             public_exponent=65537,

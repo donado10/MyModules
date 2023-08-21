@@ -51,7 +51,11 @@ class IAsysmmetric(ABC):
         pass
 
     @abstractmethod
-    def loadKeys(self):
+    def loadPublicKey(self):
+        pass
+
+    @abstractmethod
+    def loadPrivateKey(self):
         pass
 
     @abstractmethod
@@ -84,7 +88,7 @@ class RSA(IAsysmmetric):
         self.keys['publicKey'] = self.keys['privateKey'].public_key()
         return self
 
-    def exportKeys(self):
+    def exportKeys(self,folder=None):
 
         if not self.keys['privateKey'] and not self.keys['publicKey']:
             return
@@ -100,15 +104,25 @@ class RSA(IAsysmmetric):
             format=serialization.PublicFormat.SubjectPublicKeyInfo
         )
 
-        with open("public.pem", "wb") as f:
-            f.write(publicKey_pem)
+        if folder:
+            with open(f"{folder}/public.pem", "wb") as f:
+                f.write(publicKey_pem)
 
-        with open("private.pem", "wb") as f:
-            f.write(privateKey_pem)
+            with open(f"{folder}/private.pem", "wb") as f:
+                f.write(privateKey_pem)
+        else:
+            with open(f"public.pem", "wb") as f:
+                f.write(publicKey_pem)
 
-    def loadKeys(self, privateKey, publicKey):
-        self.keys['privateKey'] = privateKey
+            with open(f"private.pem", "wb") as f:
+                f.write(privateKey_pem)
+
+    def loadPublicKey(self, publicKey):
         self.keys['publicKey'] = publicKey
+        return self
+    
+    def loadPrivateKey(self, privateKey):
+        self.keys['privateKey'] = privateKey
         return self
 
     def encrypt(self, data):
