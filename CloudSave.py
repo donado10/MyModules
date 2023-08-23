@@ -61,6 +61,7 @@ class DriveAPI:
 
     def searchFile(self,size,query):
         creds = self.getCredentials()
+        files = []
         try:
             service = build('drive', 'v3', credentials=creds)
             results = service.files().list(
@@ -68,11 +69,14 @@ class DriveAPI:
             items = results.get('files', [])
             if not items:
                 print('No files found.')
+                return files
             else:
                 print('Files:')
                 for item in items:
                     print(item)
                     print('{0} ({1})'.format(item['name'], item['id']))
+                    files.append([item['name'], item['id']])
+                return files
         except HttpError as error:
             # TODO(developer) - Handle errors from drive API.
             print(f'An error occurred: {error}')
@@ -102,3 +106,15 @@ class DriveAPI:
             return True
         except:
             return False
+        
+    def delete_file_from_drive(self, file_id):
+        creds = self.getCredentials()
+        try:
+            # Create a Google Drive API service
+            drive_service = build('drive', 'v3', credentials=creds)
+
+            # Delete the file
+            drive_service.files().delete(fileId=file_id).execute()
+            print('File deleted successfully!')
+        except Exception as e:
+            print('An error occurred:', e)
